@@ -1,0 +1,14 @@
+{
+  "name": "detailing-booking-app",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.17.3",
+    "nodemailer": "^6.9.13",
+    "sqlite3": "^5.1.7"
+  }
+}

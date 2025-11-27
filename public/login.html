@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login admin – CleanRide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;}
+    html,body{margin:0;padding:0;}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+      background:#f5f5f7;
+      color:#1d1d1f;
+      display:flex;
+      min-height:100vh;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+    }
+    .card{
+      background:#ffffff;
+      border-radius:20px;
+      border:1px solid #e5e5ea;
+      box-shadow:0 18px 40px rgba(0,0,0,0.12);
+      padding:20px 18px 18px;
+      max-width:360px;
+      width:100%;
+    }
+    h1{
+      margin:0 0 4px;
+      font-size:18px;
+      font-weight:700;
+    }
+    p{
+      margin:0 0 12px;
+      font-size:13px;
+      color:#515154;
+    }
+    label{
+      display:block;
+      font-size:12px;
+      margin-bottom:4px;
+      color:#515154;
+    }
+    input{
+      width:100%;
+      border-radius:10px;
+      border:1px solid #d2d2d7;
+      padding:7px 9px;
+      font-size:14px;
+      margin-bottom:10px;
+      outline:none;
+      background:#fff;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    input:focus{
+      border-color:#ff7a00;
+      box-shadow:0 0 0 1px #ff7a0033;
+    }
+    button{
+      width:100%;
+      border:none;
+      border-radius:999px;
+      padding:9px 0;
+      background:#ff7a00;
+      color:#fff;
+      font-weight:600;
+      font-size:14px;
+      cursor:pointer;
+      margin-top:6px;
+      transition:.2s;
+    }
+    button:hover{
+      background:#e66d00;
+    }
+    .status{
+      min-height:16px;
+      margin-top:6px;
+      font-size:12px;
+      color:#ff3b30;
+    }
+    .link-back{
+      display:inline-block;
+      margin-top:10px;
+      font-size:12px;
+      color:#0071e3;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Login admin</h1>
+    <p>Introdu datele de autentificare pentru a accesa dashboard-ul de rezervări.</p>
+    <form id="loginForm">
+      <label for="username">Utilizator</label>
+      <input type="text" id="username" required />
+      <label for="password">Parolă</label>
+      <input type="password" id="password" required />
+      <button type="submit">Autentificare</button>
+      <div class="status" id="status"></div>
+      <a href="/" class="link-back">← Înapoi la site</a>
+    </form>
+  </div>
+
+  <script>
+    const form=document.getElementById("loginForm");
+    const statusEl=document.getElementById("status");
+
+    form.addEventListener("submit",async(e)=>{
+      e.preventDefault();
+      statusEl.textContent="Se verifică...";
+      try{
+        const res=await fetch("/api/admin/login",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            username:document.getElementById("username").value.trim(),
+            password:document.getElementById("password").value.trim()
+          })
+        });
+        const data=await res.json();
+        if(!res.ok)throw new Error(data.message||"Eroare autentificare.");
+        window.location.href="/admin";
+      }catch(err){
+        statusEl.textContent=err.message||"Eroare autentificare.";
+      }
+    });
+  </script>
+</body>
+</html>

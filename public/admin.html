@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>CleanRide – Panou administrare</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-logo">
+          <span class="dot"></span>
+          <span>CleanRide Admin</span>
+        </div>
+        <span class="topbar-env">Detaling interior la domiciliu</span>
+      </div>
+      <div class="topbar-right">
+        <button class="btn ghost" type="button" onclick="exportCSV()">Export CSV</button>
+        <a href="/" class="top-link">← Vizualizează site-ul public</a>
+        <button class="btn danger" type="button" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <div class="main-layout">
+      <!-- (opțional) SIDEBAR MINIMAL -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">General</div>
+          <ul>
+            <li class="active">Rezervări</li>
+          </ul>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-title">Operare</div>
+          <ul>
+            <li>Blocări program</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- CONȚINUT PRINCIPAL -->
+      <main class="content">
+        <!-- OVERVIEW / STATS -->
+        <section class="card card-header">
+          <div>
+            <h1>Panou de control</h1>
+            <p class="card-subtitle">
+              Vezi rezervările viitoare, statistici și zilele/sloturile blocate.
+            </p>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Statistici rezervări</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Rezervări pe serviciu</div>
+              <div id="statsService" class="stat-value">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Rezervări pe zi</div>
+              <div id="statsDay" class="stat-value">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Venit estimat</div>
+              <div id="statsRevenue" class="stat-value">—</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- LISTĂ REZERVĂRI -->
+        <section class="card">
+          <div class="card-header-row">
+            <div>
+              <h2>Rezervări viitoare</h2>
+              <p id="bookingsInfo" class="card-subtitle small">Se încarcă...</p>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Interval orar</th>
+                  <th>Serviciu</th>
+                  <th>Client</th>
+                  <th>Telefon</th>
+                  <th>Email</th>
+                  <th>Adresă</th>
+                  <th>Notițe</th>
+                </tr>
+              </thead>
+              <tbody id="bookingsBody">
+                <!-- rânduri construite din JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- BLOCĂRI ZILE / SLOTURI -->
+        <section class="card">
+          <h2>Gestionare zile și sloturi blocate</h2>
+          <p class="card-subtitle small">
+            Folosește formularele de mai jos pentru a bloca zile întregi sau anumite intervale orare.
+          </p>
+
+          <div class="block-grid">
+            <div class="block-column">
+              <div class="field-group">
+                <label for="blockDayDate">Blochează o zi întreagă</label>
+                <div class="field-inline">
+                  <input type="date" id="blockDayDate" />
+                  <input type="text" id="blockDayReason" placeholder="Motiv (opțional)" />
+                  <button class="btn primary" type="button" onclick="blockDay()">Blochează</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-column">
+              <div class="field-group">
+                <label for="blockSlotDate">Blochează un interval orar</label>
+                <div class="field-inline">
+                  <input type="date" id="blockSlotDate" />
+                  <select id="blockSlotTime">
+                    <option value="">Alege interval</option>
+                    <option value="09:00–11:00">09:00–11:00</option>
+                    <option value="12:00–14:00">12:00–14:00</option>
+                    <option value="15:00–17:00">15:00–17:00</option>
+                  </select>
+                  <input type="text" id="blockSlotReason" placeholder="Motiv (opțional)" />
+                  <button class="btn primary" type="button" onclick="blockSlot()">Blochează</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="blocks-lists">
+            <div class="blocks-column">
+              <div class="blocks-title">Zile blocate</div>
+              <div id="blockedDays" class="chips-container">—</div>
+            </div>
+            <div class="blocks-column">
+              <div class="blocks-title">Sloturi blocate</div>
+              <div id="blockedSlots" class="chips-container">—</div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>
