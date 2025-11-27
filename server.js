@@ -478,8 +478,6 @@ app.get("/api/admin/export", requireAdmin, async (req, res) => {
 });
 
 // START SERVER
-const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
   console.log(`Server pornit → http://localhost:${PORT}`);
 });
